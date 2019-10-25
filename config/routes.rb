@@ -1,7 +1,7 @@
 Rails.application.routes.draw do
   namespace :api do
     namespace :v1 do
-      get 'recipe/index'
+      get 'recipes/index'
       post 'recipes/create'
       get '/show/:id', to: 'recipes#show'
       delete '/destroy/:id', to: 'recipes#destroy'
@@ -11,3 +11,19 @@ Rails.application.routes.draw do
   get '/*path' => 'homepage#index'  ## catch all routes
   # For details on the DSL available within this file, see https://guides.rubyonrails.org/routing.html
 end
+
+# # frozen_string_literal: true
+
+# Rails.application.routes.draw do
+#   namespace :api do
+#     namespace :v1 do
+#       get 'recipes/index'
+#       post 'recipes/create'
+#       get '/show/:id', to: 'recipes#show'
+#       delete '/destroy/:id', to: 'recipes#destroy'
+#     end
+#   end
+#   root 'homepage#index'
+#   get '/*path' => 'homepage#index'
+#   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
+# end
