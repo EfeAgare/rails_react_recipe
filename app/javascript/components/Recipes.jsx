@@ -5,15 +5,11 @@
 import React, { Component } from 'react'
 import { Link } from 'react-router-dom';
 import API from './API/baseApi'
-import axios from 'axios';
 export default class Recipes extends Component {
 
-  constructor(props) {
-    super(props);
-    this.state = {
+    state = {
       recipes: []
-    };
-  }
+    }
 
   async componentDidMount() {
     try {

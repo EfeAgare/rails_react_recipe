@@ -3,17 +3,11 @@ import { Link } from 'react-router-dom';
 import API from './API/baseApi';
 export default class Recipe extends Component {
 
-  constructor(props) {
-    super(props);
-    this.state = {
+  state = {
       recipe: {
         ingredients: ""
       }
-    };
-
-    this.addHtmlEntities = this.addHtmlEntities.bind(this);
-  }
-
+    }
   async componentDidMount() {
     try {
       const {match: {params: {id}}} = this.props;
@@ -31,7 +25,7 @@ export default class Recipe extends Component {
 
   }
 
-  addHtmlEntities(str) {
+  addHtmlEntities = (str)=> {
     return String(str)
       .replace(/&lt;/g, "<")
       .replace(/&gt;/g, ">");
