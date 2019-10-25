@@ -4,10 +4,10 @@ import API from './API/baseApi';
 export default class Recipe extends Component {
 
   state = {
-      recipe: {
-        ingredients: ""
-      }
+    recipe: {
+      ingredients: ""
     }
+  }
   async componentDidMount() {
     try {
       const {match: {params: {id}}} = this.props;
@@ -25,13 +25,36 @@ export default class Recipe extends Component {
 
   }
 
-  addHtmlEntities = (str)=> {
+  addHtmlEntities = (str) => {
     return String(str)
       .replace(/&lt;/g, "<")
       .replace(/&gt;/g, ">");
   }
+
+  deleteRecipe = async () => {
+
+    try {
+      const {match: {params: {id}}} = this.props;
+
+      const token = document.querySelector('meta[name="csrf-token"]').content;
+
+       await API.delete(`/api/v1/destroy/${id}`, {
+        headers: {
+          "X-CSRF-Token": token,
+          "Content-Type": "application/json"
+        }
+      });
+
+      this.props.history.push("/recipes")
+    } catch (error) {
+      console.log(error.message)
+    }
+
+  }
+
+
   render() {
-    const { recipe } = this.state;
+    const {recipe} = this.state;
     let ingredientList = "No ingredients available";
 
     if (recipe.ingredients.length > 0) {
@@ -49,10 +72,10 @@ export default class Recipe extends Component {
       <div className="">
         <div className="hero position-relative d-flex align-items-center justify-content-center">
           <img
-            src={recipe.image}
-            alt={`${recipe.name} image`}
-            className="img-fluid position-absolute"
-          />
+      src={recipe.image}
+      alt={`${recipe.name} image`}
+      className="img-fluid position-absolute"
+      />
           <div className="overlay bg-dark position-absolute" />
           <h1 className="display-4 position-relative text-white">
             {recipe.name}
@@ -69,13 +92,13 @@ export default class Recipe extends Component {
             <div className="col-sm-12 col-lg-7">
               <h5 className="mb-2">Preparation Instructions</h5>
               <div
-                dangerouslySetInnerHTML={{
-                  __html: `${recipe.instruction}`
-                }}
-              />
+      dangerouslySetInnerHTML={{
+        __html: `${recipe.instruction}`
+      }}
+      />
             </div>
             <div className="col-sm-12 col-lg-2">
-              <button type="button" className="btn btn-danger">
+              <button type="button" className="btn btn-danger" onClick={this.deleteRecipe}>
                 Delete Recipe
               </button>
             </div>
@@ -85,6 +108,6 @@ export default class Recipe extends Component {
           </Link>
         </div>
       </div>
-    );
+      );
   }
 }
